@@ -120,8 +120,6 @@ The actions are performed both individually and chained sequentially to perform 
 This opens the possibility to use higher-level planners that work in symbolic domain.
 The results show that the proposed methodology and software are capable of performing useful human-like actions.
 
-% In this paper a novel structure 
-% the library of action is introduced which is an application software developed in Orocos framework.
 \keywords{library of actions \and manipulation actions \and semantic event chains \and }
 % \PACS{PACS code1 \and PACS code2 \and more}
 % \subclass{MSC code1 \and MSC code2 \and more}
@@ -153,12 +151,12 @@ The results show that the proposed methodology and software are capable of perfo
 % % \caption{Please write your figure caption here}
 % % \label{fig:1}       % Give a unique label
 % % \end{figure}
-\begin{figure}
-      \centering
-      \includegraphics[scale=0.6]{./pdf/overview.pdf}
-      \caption{An action is defined and executed using three levels.}
-      \label{fig:overview}
-\end{figure}
+% \begin{figure}
+%       \centering
+%       \includegraphics[scale=0.6]{./pdf/overview.pdf}
+%       \caption{An action is defined and executed using three levels.}
+%       \label{fig:overview}
+% \end{figure}
 
 % To address both problems in a conjoint, process-oriented way, we suggest to use a layered action representation,
 % which defines an action going from "generic" to "specific".
@@ -213,7 +211,6 @@ A simple action like putting a bucket on a box may be described by a human as fo
 \end{enumerate}
 This description is by no means unique.
 One could easily describe the same action in different words, with different number of steps and different details.
-% However, there are a few points that we can use from this simple example:
 However, one could still extract some properties from this simple description:
 \begin{itemize}
   \item \textbf{Property 1:} The definition is valid even if the objects are changed.
@@ -231,16 +228,14 @@ The conditions to start and end each sub-action are defined explicitly (Property
 We will store the default trajectory parameters to execute actions in the high-level definition.
 When the real objects are seen at each specific instance of the action, these parameters are used to generate the movements (Property 4).
 
-% Throughout this paper we will develop the \textit{put-on-top} example to demonstrate our approach.
 
-% In this section, a symbolic high-level definition of actions is presented.
 This high-level symbolic definition has several components which will be described in the rest of this section.
 For the put-on-top example, the resulting components are shown in fig.\ref{fig:action_graph_sec}.
 This definition is an extension to our previous works on the ontology of actions \cite{TAMD13}, semantic event chains (SEC) \cite{Aksoy11b},
 and first version of our action library \cite{aein2013toward}.
 \begin{figure*}
       \centering
-      \includegraphics[scale=0.20]{./pdf/action_graph_sec_new2.pdf}
+      \includegraphics[scale=0.20]{./pdf/action_graph_sec.pdf}
       \caption{ An example of the put-on-top action is performed by a human. 
 The snapshots of the executed actions together with segmented images are shown (top).
 The symbolic graph sequence (middle) and the SEC matrix (bottom) together with 
@@ -248,17 +243,12 @@ the required primitives (bottom right) give a high-level definition of the actio
 The abstract objects, manipulator, primary object, secondary object and background are the hand, the bucket, the box and the table, respectively.}
       \label{fig:action_graph_sec}
 \end{figure*}
-% First we give a short description of the ontology of actions.
-% Then, the symbolic components of actions are introduced.
-% The components of this level are as follows:
-% Text with citations \cite{RefB} and \cite{RefJ}
-% citations \cite{Aein12} and \cite{Aksoy11b}.
+
 \subsection{Ontology of Actions}
 \label{sec:ontology}
 The \textit{ontology of manipulation actions} \cite{TAMD13} defines human-like manipulation actions in an abstract way.
 An action is defined as change of touching relations between pairs of objects.
 The hypothesis is that the most important information are encoded in touching relation of objects.
-% Such definition of action is depicted in fig.xxx.
 An example put-on-top actions which is performed by human is shown in fig.\ref{fig:action_graph_sec}.
 The segmented images and the extracted graph sequence are also shown.
 The nodes of the graphs represent objects and presence of an edge indicates that a pair of objects are touching.
@@ -300,35 +290,21 @@ which happens when one object is lifted and moving on air, but it is not yet tou
 Therefore the last object that we add to the action definition is the \textit{background}.
 In our example, the background is the table.
 The result is that the number of objects involved in an action is (at most) four: manipulator, primary object, secondary object and background.
-% For the put-on example depicted in Fig. \ref{fig:action_graph_sec}, these objects are tool=hand, obj1=box, obj2=box and background=table.
 
-% When these abstract objects are instantiated in the real world, they are represented by one point in Cartesian space located at their center of mass.
-% For some actions and objects, however, more that just a single point is needed.
-% For example, to cut an object like a banana, we need to know the angle that it makes with the X-axis, to adjust the angle of knife.
-% In this case we use models to describe objects.
-% In the cutting example, we use a line model which has a parameter that shows the angle of banana.
 \begin{table}
-% \centering
 \caption{Abstract relations and their attributes for the put-on-top action}
 \begin{tabular}{ lllll }
-% \caption{}
 \hline\noalign{\smallskip}
 Relation Name & Abstract Relation & Real Relation & Type \\
 \noalign{\smallskip}\hline\noalign{\smallskip}
 $\text{R}_1$  & R(manipulator,primary object) & R(hand,bucket) & variable \\
-% \hline
 $\text{R}_2$  & R(manipulator,secondary object)& R(hand,box) & don't-care \\
-% \hline
 $\text{R}_3$  & R(manipulator,background) & R(hand,table) & don't-care \\
-% \hline
 $\text{R}_4$  & R(primary object,secondary object) & R(bucket,box) & variable  \\
-% \hline
 $\text{R}_5$  & R(primary object,background) & R(bucket,table) & variable \\
-% \hline
 $\text{R}_6$  & R(secondary object,background)& R(box,table) & constant \\
 \noalign{\smallskip}\hline
 \end{tabular}
-% \caption{Abstract relations and their attributes for the put-on action}
 \label{tab:relations}
 \end{table}
 
@@ -355,10 +331,6 @@ On the other hand, variable relations encode the progress of the action and play
 The \emph{value} of a relation is either N (for Not touching), T (for Touching) or A (for absent).
 Absent value happens when there is no information about the relation, e.g., one object is not defined or not visible.
 Table \ref{tab:relations} shows the abstract relations and their type attributes for the put-on-top action.
-% The \emph{sensor} attribute of a relation, determines the type of sensor that is used to detect that relation.
-% We use position, tactile, force and vision sensors to obtain the value of a relation.
-
-
 
 
 \subsection{Semantic Event Chain}
@@ -372,32 +344,16 @@ The number of columns of SEC, depends on how many times the relations between ob
 Each column of SEC matrix is interpreted as a state of the scene, which is a combination of the relations between the objects.
 
 
-%  the relation between a pair of objects.
-% The symbolic entries show the semantic relation between the corresponding pair.
 The valid symbolic entries of SEC matrix are N (not touching), T (touching) and A ( absence).
 In a SEC, the progress of the action from the beginning to the end, is seen in a compact way.
 In addition, the SEC matrix of different instances of one action remains the same.
 The SEC matrix of the put-on-top action is shown in Fig.\ref{fig:action_graph_sec}.
-% \begin{figure*}
-%       \centering
-%       \includegraphics[scale=0.2]{./pdf/action_graph_sec.pdf}
-%       \caption{ The relation of 
-% Two put-on actions are done with different objects and positions.
-% The snapshots of real action execution together with graphs annotated to objects are depicted at top.
-% The symbolic graphs 
-% However, the SEC matrix and graph sequences are the same.}
-%       \label{fig:action_graph_sec}
-% \end{figure*}
 
 \subsection{Abstract Primitives}
 \label{sec:abstract_primitives}
 In the simple example at the beginning of this section, it is shown that a full action can be divided into several sub-actions.
 These sub-actions or \textit{primitives} are the basic functions of the manipulator.
-% One example is the ability of a human or robot arm to move to a certain pose.
 
-% The proper combination of these primitives form actions 
-% While these primitives are necessary to perform actions, they alone don't form a full purposeful actions.
-% What forms an action, is the proper combination of them.
 In our approach we define the following primitives:
 \begin{itemize}
  \item $move(pose)$ :  The manipulator moves to $pose$.
@@ -423,7 +379,6 @@ For example, a combination of $move(pose)$ and $grasp()$ primitives are often ne
 As described above, one important primitive is the $move(pose)$ primitive that moves the robot arm toward a pose.
 In the abstract definition, the argument $pose$ of this primitive is an abstract position.
 The abstract positions are either the objects in the scene, or some other convenient points in space.
-% The target of the $move$ primitive is either an object in the scene, or just a point in space.
 While performing the actions, sometimes we move our hands toward points in space where there are no specific objects.
 One example is when we initially lift an object from a table, to put it on top of another object.
 We move the object to a point that makes our next move easier.
@@ -433,22 +388,7 @@ In some actions, we need to move toward arbitrary positions to achieve the goal 
 For example in the pushing action, we push an object to a desired position.
 This desired position could be any accessible point and it is usually specified by the user or a higher level planner.
 We call this type of abstract positions the \textit{goal} position.
-% We call such points, abstract positions, and use them in our method.
-% 
-% In our method, we use two kinds of abstract positions, namely \emph{home} and \emph{goal} positions.
-% The example above was a home position, while an example of a goal position is when we push an object on a surface to another point.
-% The actual definition of abstract positions depends on the action and position of other objects.
-% In Fig. \ref{fig:action_graph_sec} it is shown that the primitive $move(home)$ is used twice in this action.
-% \subsection{Complete Definition}
-% In the previous sub-sections several components of the high-level definition were introduced.
-% Here we sum up the high-level definition with the same example that we started this section with.
-% In figure.xx , an example of a put on top action is depicted.
-% The snapshots shows the different states of the scene in terms of object relations.
-% The corresponding SEC matrix as well as the required primitives to move from one state to the next state are shown.
-% % The whole actions is transformed into a finite state machine which shows the states, and the associated primitives.
-% 
-% This definition is general and abstract,
-% however, one needs to relate these symbols with the real world, which is done in the next section.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% SECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -482,10 +422,8 @@ To calculate the direction of the objects, we use principle component analysis (
 The direction of the object is defined as the direction of its major axis.
 
 \begin{table}
-% \centering
 \caption{Summary of object relation detection in different actions. For each relation only the main sensor is mentioned.}
 \begin{tabular}{ lcccccc }
-% \caption{}
 \hline\noalign{\smallskip}
  Action Name &  $\text{R}_1$ & $\text{R}_2$ &$\text{R}_3$ &$\text{R}_4$ &$\text{R}_5$&$\text{R}_6$ \\
 \noalign{\smallskip}\hline\noalign{\smallskip}
@@ -500,7 +438,6 @@ The direction of the object is defined as the direction of its major axis.
  Poke           & force   & -       & position & -     &  vision & - \\
 \noalign{\smallskip}\hline
 \end{tabular}
-% \caption{Abstract relations and their attributes for the put-on action}
 \label{tab:relation_detection}
 \end{table}
 \subsection{Real relations}
@@ -535,7 +472,6 @@ The reason is that the manipulator does not directly interact with the secondary
 The relation of the manipulator and the background ($\text{R}_3$) plays no important role in this action, so we label it as don't-care.
 This is not specific to this action and for all other actions the $\text{R}_3$ is don't-care.
 
-% This can be calculated simply by comparing the position of robot hand and the height of the background (assuming that we have a flat background).
 
 The relation of the primary object and the secondary object ($\text{R}_4$) is calculated by force sensor of the robot arm.
 However, this depends also on the relation of manipulator and primary object, and on the position sensor.
@@ -547,31 +483,6 @@ The relation of primary object and the background ($\text{R}_5$) is also detecte
 The relation of the secondary object and the background ($\text{R}_6$) is a constant relation and is detected by vision.
 For the cases that other sensors than vision are used, the vision sensor is also employed to confirm the resulting event.
 The sensors used to detect relations during different actions are summarized in table.\ref{tab:relation_detection}.
-
-% \begin{table}
-% % \centering
-% \caption{Summary of object relation detection by different sensors}
-% \begin{tabular}{ lllll }
-% % \caption{}
-% \hline\noalign{\smallskip}
-% \# & Abstract Relation &  Before/After Action& During Action\\
-% \noalign{\smallskip}\hline\noalign{\smallskip}
-% $1$  & R(manipulator,primary obj.) & vison, tactile& position, tactile, vision \\
-% % \hline
-% $2$  & R(manipulator,secondary obj.)& vison, tactile& position, tactile, vision \\
-% % \hline
-% $3$  & R(manipulator,background) &  vision,position &  position, vision\\
-% % \hline
-% $4$  & R(primary obj.,secondary obj.) & vision &  position, force, vision\\
-% % \hline
-% $5$  & R(primary obj.,background) & vision &  position, force, vision\\
-% % \hline
-% $6$  & R(secondary obj.,background) & vision &  vision\\
-% \noalign{\smallskip}\hline
-% \end{tabular}
-% % \caption{Abstract relations and their attributes for the put-on action}
-% \label{tab:relation_detection}
-% \end{table}
 
 \subsection{Low-level primitives}
 \label{section_primitives}
@@ -590,26 +501,13 @@ The $exert(f_{des},P)$ performs force control with set-point $f_{des}$.
 In our setup, we use a parallel force/position scheme with dominant force control, similar to \cite{chiaverini1993parallel}.
 In this way we can achieve the desired force in the constrained space, and at the same time, perform desired motions in the unconstrained space,
 the trajectory of which is defined by $P$.
-% For example in cutting action, the robot arm keeps a constant force between the knife and banana in Z direction (constrained space),
-% while moving the knife back and forth in the XY-plane (unconstrained space).
+
 
 To grasp objects we use velocity control of finger joints together with feedback from tactile sensors on the fingers.
 We use separate pre-shapes for round and elongated objects.
 This provides grasps for simple objects, which is enough to demonstrate our system.
 The complex problem of grasping arbitrary objects is not a goal of this research.
 
-
-% \begin{figure}[t]
-%       \centering
-%       \includegraphics[scale=0.28]{./pdf/sec_fsm.pdf}
-%       \caption{A mid-level sequencer is implemented by a finite state machine (FSM) for the put-on-top action.
-% The action starts if initially inputs (real relations) match the first column of the SEC matrix.
-% The transition from state $i$ to $i+1$ occurs when the inputs match the $i$-th column of the SEC matrix.
-% Otherwise, the next state is the same as the current state (loop transitions).
-% This process is continued until reaching the final state which corresponds to the last column of the SEC matrix.
-% }
-%       \label{fig:sec_fsm}
-% \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% SECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -620,7 +518,6 @@ In this section we present our implementation of manipulation actions based on t
 First we introduce the hardware setup used in the experiments.
 Then, we present the software components that are developed as part of the library of actions.
 Finally, our algorithm for executing actions is described as a finite state machine.
-% At the end of this section, we show the specific hardware setup that we used to produce our results.
 
 % \subsection{Mid-level Sequencer}
 % \label{sec:mid-level}
@@ -723,21 +620,17 @@ In a typical Orocos application, several components exist which communicate over
 The library of actions consists of several components which are shown in fig.\ref{fig:aladdin_structure}.
 Some of the components communicate to hardware (Sensors and actuators), while others perform calculations and control the execution of actions.
 The components are described in the following:
-% \subsection{Hardware-related Components}
 \begin{figure*}
       \centering
-      \includegraphics[scale=1]{./pdf/aladdin_structure_new.pdf}
+      \includegraphics[scale=1]{./pdf/aladdin_structure.pdf}
       \caption{ Block diagram of the software for action library.
       The interconnection of the components are shown as well as the interface to ROS nodes and hardware.
 }
       \label{fig:aladdin_structure}
 \end{figure*}
-% There hardware-related components are the following:
 
 
-% \subsection{Calculation and Control Components}
 
-% The components which are used for action definition and execution are 
 \begin{itemize}
  \item{\textbf{Action}}
 component holds the parameters of the high-level definition of the action.
@@ -754,8 +647,6 @@ Additionally, some function like comparing desired and actual relations is done 
 
 \item{\textbf{Trajectory Generator}}
 component receives $move()$ and $move_{periodic}()$ primitives and generates the trajectory using the DMPs.
-% It is created by modifying the CartesianGeneratorPos component in \textit{cartesian\_motion\_control} package (reference needed).
-% The DMP implementation is according to \cite{Kulvicius2012}.
 
 \item{\textbf{Force Control}}
 component implements the $exert()$ primitive.
@@ -775,7 +666,6 @@ The parameter $hand\_status$ determines the current status of the hand and is se
 This parameter takes values : Undefined, Grasped and Empty
 
 \item{\textbf{ROS interface}}
-% Our vision system communicates over ROS nodes.
 component creates an interface between the ROS nodes and Orocos data ports.
 The data ports in Orocos are capable of talking to ROS nodes, using the components of $rtt\_ros\_integration$ stack.
 % \footnote{http://wiki.ros.org/rtt_ros_integration}.
@@ -784,62 +674,17 @@ Since our vision system is developed in ROS framework, this component is used to
 objects poses and relations from the vision system and create the necessary data ports to send them to other components.
 \end{itemize}
 
-% \paragraph{Action}
-% The action component holds the parameters of the high-level definition of the action.
-% These parameters are the SEC matrix, high-level primitives and the abstract arguments.
-% The parameters of the DMP for trajectories are also stored in this component.
-% \paragraph{Perception}
-% The perception component collects data from all the sensors and determines if relation of objects in the scene are modified.
-% It receives the object poses from the vision system (through the ROS-interface component).
-% It also monitors other sensors and detects changes in object relations according to section.\ref{sec:real_relations}.
-% \paragraph{Coordinator}
-% The coordinator component contains a state machine that executes the action.
-% The detail of the state machine and execution algorithm will be discussed in \ref{sec:execution_algorithm}.
-% Additionally, some function like comparing desired and actual relations is done inside this component.
-% 
-% \paragraph{Trajectory planner}
-% The trajectory planner receives $move()$ and $move_{periodic}()$ primitives and generates the trajectory using the DMPs.
-% % It is created by modifying the CartesianGeneratorPos component in \textit{cartesian\_motion\_control} package (reference needed).
-% % The DMP implementation is according to \cite{Kulvicius2012}.
-% 
-% \paragraph{Force Control}
-% The force control component implements the $exert()$ primitive.
-% The actual contact force is received from the FRI component and using the algorithm of section.\ref{section_primitives},
-% the contact force is regulated in the desired direction.
-% The output of this component is sent to the control system of the LWR arm, though the FRI component.
-% 
-% \paragraph{FRI Component}
-% The FRI Component communicates with the robot arm through the FRI,
-% and provides the necessary input and output data ports to other Orocos components.
-% 
-% \paragraph{SDH Component}
-% The hand primitives (grasp, release and pre-shape) are implemented in this component.
-% This component uses the C++ library which is provided to communicate with the Schunk SDH-2 robot hand.
-% The tactile sensor data are also processed in this component to detect objects in the hand.
-% The parameter $hand\_status$ determines the current status of the hand and is sent to the perception component.
-% This parameter takes values : Undefined, Grasped and Empty
-% 
-% \paragraph{ROS interface}
-% % Our vision system communicates over ROS nodes.
-% The data ports in Orocos are capable of talking to ROS nodes, using the components of $rtt\_ros\_integration$ stack.
-% % \footnote{http://wiki.ros.org/rtt_ros_integration}.
-% The ROS interface component is created by using $rtt\_rosnode$ component of this stack to integrate all ROS communications in one component.
-% Since our vision system is developed in ROS framework, this component is used to get the information such as 
-% objects poses and relations from the vision system and create the necessary data ports to send them to other components.
-
 \subsection{Execution Algorithm}
 \label{sec:execution_algorithm}
 \begin{figure*}
       \centering
-      \includegraphics[scale=1]{./pdf/coordinator_fsm2.pdf}
+      \includegraphics[scale=1]{./pdf/coordinator_fsm.pdf}
       \caption{ State diagram of the finite state machine governing the execution of action.
 }
       \label{fig:coordinator_fsm}
 \end{figure*}
 Here an algorithm is presented to execute actions, using the software components introduced earlier.
 The core of the execution is a finite state machine inside the coordinator component.
-% This component receives the object relations from the perception component and decides which primitive should be executed by hardware.
-% To do this, it receives the high-level action definition from the action component.
 
 To implement the state machine, we use the $State\_Machine$ class in Orocos real-time toolkit (RTT).
 The Orocos component builder manual defines a state machine:
@@ -854,7 +699,6 @@ The states are described in detail in the following:
  \item \textbf{Wait for next command:} Waiting for the next action command to come.
  An action command consists of the action type, the primary object and the secondary object.
  On exit, the high-level definition of the requested action is loaded in the action component.
-%  This includes the SEC matrix, the action primitives in each sub-task and the DMP parameters of each $move()$ or $move_periodic()$ primitive.
  \item \textbf{Check components:} This state checks whether all the components are running and ready to execute the action. 
  \item \textbf{Initialization:} This component initializes the $curren\_column$ parameter to zero.
  This means that the action starts at the first column of the SEC matrix.
@@ -888,12 +732,6 @@ The states are described in detail in the following:
  This could be used to inform the user or the higher level planner that the action is not successful.
 \end{itemize}
 
-% A state machine has an initial state, a final state and optionally some other states.
-% A state machine is at any time in exactly one of its states.
-% Each state has entry, run and exit functions that are called when that state is entered, running and left, respectively.
-
-
-% The state machine which is used here is conceptually similar to the mid-level sequencer which is used in \cite{aein2013toward}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% SECTION
@@ -902,11 +740,8 @@ The states are described in detail in the following:
       \centering
       \includegraphics[scale=0.20]{./pdf/result_puton.pdf}
       \caption{ Two instances of the put-on-top action, performed by our method, are shown with different objects and positions. 
-% The components of the action in three levels can be seen.
 The snapshots of the executed actions together with segmented images are shown (top) which indicate the real objects and relations.
-% The arm and hand primitives are also listed (bottom right).
 The symbolic graph sequence (middle) and the SEC matrix (bottom) remain the same for both version.
-% The states(S), inputs(U) and outputs (Y) of FSM and their relation to other components are shown.
 }
       \label{fig:result_puton}
 \end{figure*}
@@ -915,13 +750,10 @@ The symbolic graph sequence (middle) and the SEC matrix (bottom) remain the same
 
 \begin{figure*}
       \centering
-      \includegraphics[scale=0.5]{./pdf/scenario_result_big.pdf}
+      \includegraphics[scale=0.5]{./pdf/scenario_result.pdf}
       \caption{ Two instances of the put-on action, performed by our method, are shown with different objects and positions. 
-% The components of the action in three levels can be seen.
 The snapshots of the executed actions together with segmented images are shown (top) which indicate the real objects and relations.
-% The arm and hand primitives are also listed (bottom right).
 The symbolic graph sequence (middle) and the SEC matrix (bottom) remain the same for both version.
-% The states(S), inputs(U) and outputs (Y) of FSM and their relation to other components are shown.
 }
       \label{fig:scenario_result}
 \end{figure*}
@@ -945,9 +777,6 @@ The list of the actions are shown in table.\ref{tab:action_list}.
 7 & stir  & spoon & milk \\
 8 & push  & box & - \\
 9 & poke  & box & -\\
-
-
-
 \noalign{\smallskip}\hline
 \end{tabular}
 \end{table}
