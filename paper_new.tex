@@ -1,13 +1,3 @@
-%%%%%%%%%%%%%%% Structure of paper %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% abstract
-% introduction
-% high level action definition
-% low level action definition
-% action execution
-%	full action definition
-% features
-% results
-% conclusion
 %%%%%%%%%%%%%%%%%%%%%%% file template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % This is a general template file for the LaTeX package SVJour3
@@ -24,41 +14,67 @@
 %
 % First comes an example EPS file -- just ignore it and
 % proceed on the \documentclass line
-% your LaTeX will extract the file if required
-\begin{filecontents*}{example.eps}
-%!PS-Adobe-3.0 EPSF-3.0
-%%BoundingBox: 19 19 221 221
-%%CreationDate: Mon Sep 29 1997
-%%Creator: programmed by hand (JK)
-%%EndComments
-gsave
-newpath
-  20 20 moveto
-  20 220 lineto
-  220 220 lineto
-  220 20 lineto
-closepath
-2 setlinewidth
-gsave
-  .4 setgray fill
-grestore
-stroke
-grestore
-\end{filecontents*}
-%
+%% your LaTeX will extract the file if required
+%\begin{filecontents*}{example.eps}
+%%!PS-Adobe-3.0 EPSF-3.0
+%%%BoundingBox: 19 19 221 221
+%%%CreationDate: Mon Sep 29 1997
+%%%Creator: programmed by hand (JK)
+%%%EndComments
+%gsave
+%newpath
+%  20 20 moveto
+%  20 220 lineto
+%  220 220 lineto
+%  220 20 lineto
+%closepath
+%2 setlinewidth
+%gsave
+%  .4 setgray fill
+%grestore
+%stroke
+%grestore
+%\end{filecontents*}
+%%
 \RequirePackage{fix-cm}
 %
 %\documentclass{svjour3}                     % onecolumn (standard format)
-\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
+%\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
 %\documentclass[smallextended]{svjour3}       % onecolumn (second format)
-%\documentclass[twocolumn]{svjour3}          % twocolumn
+\documentclass[twocolumn]{svjour3}          % twocolumn
+
 %
 \smartqed  % flush right qed marks, e.g. at end of proof
 %
 \usepackage{graphicx}
+\usepackage{stfloats}
+\usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{url}
+\usepackage{url} 
 \usepackage{color}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+%\usepackage{slashbox}
+%\usepackage{multicol}
+\usepackage{xspace}
+
+\usepackage{natbib}
+
+\usepackage{lineno,hyperref}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\newcommand{\mathkomma}{\quad ,}
+\newcommand{\mathpunkt}{\quad .}
+\newcommand{\Real}{{\mathbb R}}
+
+\def\etc{etc.\@\xspace}
+\def\eg{e.g.\@\xspace}
+\def\ie{i.e.\@\xspace}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
 %
 % \usepackage{mathptmx}      % use Times fonts if available on your TeX system
 %
@@ -72,46 +88,38 @@ grestore
 % Insert the name of "your journal" with
 % \journalname{myjournal}
 %
-\begin{document}
+\begin{document} \sloppy
 
-\title{Library of Actions: Implementing Human-like Manipulation Actions based on Semantic Event Chains%\thanks{Grants or other notes
-%about the article that should go on the front page should be
-%placed here. General acknowledgments should be placed at the end of the article.}
-}
-% \subtitle{Do you have a subtitle?\\ If so, write it here}
 
-\titlerunning{Library of actions}        % if too long for running head
+\title{Library of Actions: Implementing Human-like Manipulation Actions based on Semantic Event Chains}
 
-\author{Mohamad Javad Aein         \and
-        Eren Erdal Aksoy         \and
-        Florentin Woergoetter %etc.
-}
+
+%\subtitle{Do you have a subtitle?\\ If so, write it here}
+
+\titlerunning{Library of actions}         % if too long for running head
+
+\author{  Mohamad Javad Aein      \and  	 Florentin  W\"org\"otter	 \and  Eren Erdal Aksoy  	 }
 
 %\authorrunning{Short form of author list} % if too long for running head
 
-\institute{M. J. Aein \at
-              Friedrich-Hund Platz 1, 37077 Goettingen,  Germany\\
-              Tel.: +49-551-3910766\\
-              Fax: +49-551-3910769\\
-              \email{maein@gwdg.de}           %  \\
+\institute{   M. J. Aein,  		F.~W\"org\"otter , E.~E.~Aksoy  \at
+              Georg-August-Universit\"at G\"ottingen, BCCN, \\Department for Computational Neuroscience,
+              Inst. Physics-3 \\ Friedrich-Hund Platz 1, D-37077 G{\"o}ttingen, Germany \\
+              \email{[maein,worgott,eaksoy]@gwdg.de}           %  \\
 %             \emph{Present address:} of F. Author  %  if needed
-           \and
-           E. E. Aksoy \at
-              Friedrich-Hund Platz 1, 37077 Goettingen,  Germany
-           \and
-           F. Woergoetter \at
-              Friedrich-Hund Platz 1, 37077 Goettingen,  Germany
+%           \and
+%           S. Author \at
+%              second address
 }
 
 \date{Received: date / Accepted: date}
 % The correct dates will be entered by the editor
 
-
 \maketitle
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% ABSTRACT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
+
 In this paper a new implementation of the library of actions is presented.
 Library of actions is a software application which implements  manipulation actions on robotic systems using the semantic event chain framework.
 A general definition for manipulation actions is presented which contains both in symbolic and sub-symbolic components.
@@ -120,68 +128,21 @@ The actions are performed both individually and chained sequentially to perform 
 This opens the possibility to use higher-level planners that work in symbolic domain.
 The results show that the proposed methodology and software are capable of performing useful human-like actions.
 
-\keywords{library of actions \and manipulation actions \and semantic event chains \and }
+
+\keywords{Library of Actions \and Execution \and Manipulation Action \and  Semantic Event Chain}
+ 
 % \PACS{PACS code1 \and PACS code2 \and more}
 % \subclass{MSC code1 \and MSC code2 \and more}
 \end{abstract}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% INTRODUCTION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-\label{intro}
 
-% It remains largely a puzzle how action knowledge can be efficiently structured for robotics applications.
-% In a recent paper \cite{TAMD13}, we had discussed that human manipulation actions can be captured by a limited ontology-tree
-% and we had argued that there is only a quite small number of basic actions existing (less than 30), which cover most if not all of our uni-manual manipulations.
-% 
-% This, we believe, offers the unique opportunity to structure the robot's manipulation action-space
-% by defining all these actions in a default way to also store them in an action library.
-% For any given robot (with not too different embodiment) execution of an action then means to access the required library function
-% only having to re-parameterize it with respect to the {\em specific} action-situation (the scene) also taking into account all embodiment-specific constraints.
-% 
-% This idea as such is quite straight-forward but requires addressing many difficult problems.
-% First and foremost we are asking for an appropriate action-representation from which an action library could be formed.
-% Second, we need to define an architecture that can be used to access the library and actually execute an action.
-% % \begin{figure}
-% % % Use the relevant command to insert your figure file.
-% % % For example, with the graphicx package use
-% %   \includegraphics{example.eps}
-% % % figure caption is below the figure
-% % \caption{Please write your figure caption here}
-% % \label{fig:1}       % Give a unique label
-% % \end{figure}
-% \begin{figure}
-%       \centering
-%       \includegraphics[scale=0.6]{./pdf/overview.pdf}
-%       \caption{An action is defined and executed using three levels.}
-%       \label{fig:overview}
-% \end{figure}
 
-% To address both problems in a conjoint, process-oriented way, we suggest to use a layered action representation,
-% which defines an action going from "generic" to "specific".
-% We start at the top-level (Fig. \ref{fig:overview}, top) with a symbolic definition of actions proposed in \cite{Aksoy11}
-% by which uni-manual human manipulations are defined as sequences of graphs that show how relations between objects change in the course of an action.
-% From this a matrix representation of those graph sequences, called Semantic Event Chain (SEC), can be derived by which "the essence" of an action
-% -- the sequence of changes in a scene resulting from the action -- is encoded .
-% At this top-level objects and other action relevant parameters are encoded only in a very abstract way (described in Section \ref{sec:high-level} below).
-% 
-% One level down we define a finite state machine, which receives inputs from the SECs and produces an execution protocol of so-called "action primitives"
-% (Fig. \ref{fig:overview}, middle).
-% In general all robot arm- and hand-systems have low-level controllers, which make it possible to implement such action primitives.
-% These low-level primitives are described in detail in Section~\ref{section_primitives}.
-% Here the interfacing to the real world -- to the currently observed situation -- takes place
-% and the {\em actual} execution parameters are determined from sensor information at the bottom level (Fig. \ref{fig:overview}, bottom).
-% We use position and force sensors at the robot arm, a vision system to observe the scene, and tactile sensors of the robot hand.
-% 
-% By this, we achieve a systematic and general way of representing and executing all the actions of the ontology, which together form a \emph{library} of human-like manipulations.
-% % This library can then be used by a higher level task planner to perform more complex action sequences (for an example see Section \ref{subsection:scenario}).
-% 
-% The proposed methodology and the resulting library of actions have some advantageous features.
-% First there is the ability to perform actions on any robot manipulator platform that provides the required low-level primitive and sensor information.
-% Second the framework generalizes well to different actions, objects and situations.
-% Third, it provides the necessary actions with pre- and post-conditions for a higher level planner to perform more complex tasks.
-% Finally, it provides mechanisms to detect failures during execution and allows reacting to them.
+Humans are  ..
+ 
+The rest of the paper is organized as follows. We start with introducing the state of the art. We then continue with a detailed description of each processing step. Next, we provide experimental results on various datasets and finally we finish with a discussion.
 
 The rest of the paper is organized as follows.
 The high-level action definition is presented in section.\ref{sec:high-level}.
@@ -189,14 +150,50 @@ The components of actions in the low-level are introduced in Section.\ref{sec:lo
 Section.\ref{sec:Implementing} presents the implementation of actions in the library.
 The results of the experiments are shown in Section.\ref{sec:results} followed by some conclusions in Section.\ref{sec:conclusion}.
 
-% Next follows Section \ref{subsection:stateoftheart} on the state of the art.
-% Then, in Section~\ref{section:framework} the proposed methodology is described.
-% Section ~\ref{section:fault} is on failure detection and handling.
-% In Section~\ref{section:experiments} we present the results of experiments performed on our robotic setup.
-% Finally, Section \ref{section:conclusion} provides a conclusion of the paper.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% SECTION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%\newpage  %% needed for single columns
+%\clearpage  %% needed for two columns
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{State of the Art}
+\label{sec:soa}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Method}
+\label{sec:method}
+
+Before describing the complete framework in detail, we will briefly provide an overview of each algorithmic step illustrated in Fig.~\ref{fig:block_diagram}.
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Manipulation Observation}
+\label{sec:observation}
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Segmentation and Tracking}
+\label{sec:segmentationandtracking}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Semantic Event Chain (SEC) Extraction}
+\label{sec:secs}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Learning of Model SECs}
+\label{sec:learning}
+ 
+  
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{High-level Action Definition}
 \label{sec:high-level}
 In this section we give a high-level definition of manipulation actions.
@@ -519,73 +516,7 @@ First we introduce the hardware setup used in the experiments.
 Then, we present the software components that are developed as part of the library of actions.
 Finally, our algorithm for executing actions is described as a finite state machine.
 
-% \subsection{Mid-level Sequencer}
-% \label{sec:mid-level}
-% 
-% % In fig.\ref{fig:overview}, a three-layer structure is proposed to implement actions.
-% In this section we introduce the middle layer of fig.\ref{fig:overview}.
-% The middle layer is a sequencer which relates the high-level components to the low-level hardware.
-% This sequencer is realized by using a finite state machine.
-% This state machine follows the high-level action definition,
-% creates a sequence of primitives and sends them to the proper component at the low-level.
-% On the other hand, it receives the real object relations from the low-level, and uses them to make state transitions.
-% 
-% An FSM is a logic unit, that determines outputs and the next state of a system, based on the current state and inputs.
-% It is formally defined as a 6-tuple $(S,U,Y,f_1,f_2,s_1)$.
-% 
-% The following paragraphs show the definition of these variables.
-% It is also shown how these variables are related to the high-level and low-level components.
-% In particular, the variables for the put-on example are derived to complete the example.
-% For the put-on action the resulting FSM is depicted in Fig. \ref{fig:sec_fsm}.
-% 
-% \subsubsection{States ($S$)}
-% As the name suggests, there exists a finite set of states in an FSM denoted by $S$.
-% The interpretation of these states depends on the application.
-% In our application, each column of SEC matrix shows a state of the system.
-% Therefore, states of FSM are associated with the columns of a SEC.
-% For example, the SEC matrix for put-on has five columns, therefore the FSM has five states : $S=\{S(1), S(2)\cdots ,S(5)\}$ as shown in Fig. \ref{fig:action_graph_sec}.
-% 
-% \subsubsection{Inputs ($U$)}
-% The inputs of the FSM, are the inputs of the system.
-% In action execution, the inputs are the real relations.
-% There are six real relations, therefore we need six inputs $U=[U(1),U(2), \cdots ,U(6)]^T$.
-% For the put-on example, the inputs are highlighted in Fig. \ref{fig:action_graph_sec}.
-% 
-% \subsubsection{Outputs ($Y$)}
-% An FSM can produce outputs depending on current state and inputs.
-% % These outputs are defined in terms of defined commands of the application.
-% In our application, the outputs are a combination of arm/hand primitives, that should get called in the appropriate sequence.
-% In the put-on example there are five states, therefore there are five outputs $Y=\{Y(1), Y(2)\cdots ,Y(5)\}$,
-% shown in Fig. \ref{fig:action_graph_sec}.
-% Since the last state is the goal state, the last output is always empty.
-% 
-% \subsubsection{State transition function ($f_1$)}
-% The state transition function determines the next state, based on current state and inputs.
-% 
-% In action execution, the transition from state $i$ to $i+1$ happens when the inputs are equal to the $(i+1)$th column of the SEC matrix.
-% When checking the equality, the inputs that correspond to don't-care relations are not taken into account.
-% Hence, the transition function for put-on example is as follows:
-% \begin{equation}
-% \label{eq:f_1_action}
-%  \underset{i=1,2,3,4}{f_1(S(i),U)}=\left\{\begin{matrix}
-% S(i+1) & \text{if}\,\, U=SEC(:,i+1)\\
-% S(i) & otherwise
-% \end{matrix}\right.
-% \end{equation}
-% 
-% \subsubsection{Output function ($f_2$)}
-% 
-% In general, the outputs of an FSM depend on state and inputs.
-% However, here we use a specific kind of FSM called Moore machine, in which outputs depend only on the states.
-% Hence we have a simple output function which associates outputs to each state:
-% \begin{equation}
-% \label{eq:f_2}
-%  \underset{i=1,2,3,4}{f_2(S(i))}= Y(i)
-% \end{equation}
-% 
-% \subsubsection{Initial state ($S(1)$)}
-% The initial state is associated with the first columns of the SEC that represents the initial relations between objects.
-% It is verified at the beginning of the action that the real relations match the first column of the SEC matrix, otherwise the action won't start.
+
 
 \subsection{Hardware}
 \label{sec:hardware}
@@ -797,86 +728,72 @@ The scenario is as follows:
 The result is shown in Fig.\ref{fig:scenario_result}.
 The video of this scenario is also available in our webpage \url{https://sites.google.com/site/aeinwebpage/actions/videos}.
 
-% \subsection{Experiments}
-% \label{sec:experiments}
-% \subsection{Discussion}
-% \label{sec:discussion}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% SECTION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion}
-\label{sec:conclusion}
 
 
 
 
-% \paragraph{Paragraph headings} Use paragraph headings as needed.
-% \begin{equation}
-% a^2+b^2=c^2
-% \end{equation}
-
-% % % % For one-column wide figures use
-% % % \begin{figure}
-% % % % Use the relevant command to insert your figure file.
-% % % % For example, with the graphicx package use
-% % %   \includegraphics{example.eps}
-% % % % figure caption is below the figure
-% % % \caption{Please write your figure caption here}
-% % % \label{fig:1}       % Give a unique label
-% % % \end{figure}
-%
-% % % % For two-column wide figures use
-% % % \begin{figure*}
-% % % % Use the relevant command to insert your figure file.
-% % % % For example, with the graphicx package use
-% % %   \includegraphics[width=0.75\textwidth]{example.eps}
-% % % % figure caption is below the figure
-% % % \caption{Please write your figure caption here}
-% % % \label{fig:2}       % Give a unique label
-% % % \end{figure*}
-%
-% For tables use
-% % % % \begin{table}
-% % % % % table caption is above the table
-% % % % \caption{Please write your table caption here}
-% % % % \label{tab:1}       % Give a unique label
-% % % % % For LaTeX tables use
-% % % % \begin{tabular}{lll}
-% % % % \hline\noalign{\smallskip}
-% % % % first & second & third  \\
-% % % % \noalign{\smallskip}\hline\noalign{\smallskip}
-% % % % number & number & number \\
-% % % % number & number & number \\
-% % % % \noalign{\smallskip}\hline
-% % % % \end{tabular}
-% % % % \end{table}
 
 
-%\begin{acknowledgements}
-%If you'd like to thank anyone, place your comments here
-%and remove the percent signs.
-%\end{acknowledgements}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+\label{sec:results}
+
+In this section, we will provide experimental results 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Manipulation Action (ManiAc) Dataset}
+\label{sec:maniacdataset}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+\label{sec:discussion}
+
+The main contribution of our paper is a novel method for automatic semantic decomposition and recognition of long and complex manipulation sequences.  
+
+
+%\newpage  %% needed for single columns
+%\clearpage  %% needed for two columns
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{acknowledgements}
+The research leading to these results has received funding from the European Community’s Seventh Framework Programme FP7/2007-2013 (Programme and Theme: ICT-2011.2.1, Cognitive Systems and Robotics) under grant agreement no. 600578, ACAT. 
+\end{acknowledgements}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
 
 % BibTeX users please use one of
-%\bibliographystyle{spbasic}      % basic style, author-year citations
-\bibliographystyle{spmpsci}      % mathematics and physical sciences
+\bibliographystyle{spbasic}      % basic style, author-year citations
+%\bibliographystyle{spmpsci}      % mathematics and physical sciences
 %\bibliographystyle{spphys}       % APS-like style for physics
 \bibliography{actionlib_journal}   % name your BibTeX data base
 
+
 % Non-BibTeX users please use
-% % \begin{thebibliography}{}
-% % %
-% % % and use \bibitem to create references. Consult the Instructions
-% % % for authors for reference list style.
-% % %
-% % \bibitem{RefJ}
-% % % Format for Journal Reference
-% % Author, Article title, Journal, Volume, page numbers (year)
-% % % Format for books
-% % \bibitem{RefB}
-% % Author, Book title, page numbers. Publisher, place (year)
-% % % etc
-% % \end{thebibliography}
+%\begin{thebibliography}{}
+%%
+%% and use \bibitem to create references. Consult the Instructions
+%% for authors for reference list style.
+%%
+%\bibitem{RefJ}
+%% Format for Journal Reference
+%Author, Article title, Journal, Volume, page numbers (year)
+%% Format for books
+%\bibitem{RefB}
+%Author, Book title, page numbers. Publisher, place (year)
+%% etc
+%\end{thebibliography}
 
 \end{document}
 % end of file template.tex
