@@ -159,7 +159,7 @@ XXX SECs is also used as mid-level planners which defines symbolic states. There
       \centering
       \includegraphics[scale=0.5]{./pdf/Figure_PerceptionAction.pdf}
       \caption{ Perception-action Chain}
-      \label{fig:action_graph_sec}
+      \label{fig:per_act_cycle}
 \end{figure}
 
  
@@ -215,10 +215,14 @@ Thus, how to bring these two levels together remains a big challenge for robotic
 \section{Method}
 \label{sec:method}
 
-Before describing the complete framework in detail, we will briefly provide an overview of each algorithmic step illustrated in Fig.~\ref{fig:block_diagram}.
+As illustrated in Fig.~\ref{fig:per_act_cycle} our proposed perception action chain involves three main components: {\it high-}, {\it mid-}, and {\it low-level} action units. In this section we will provide the detailed description of each component together with their sub-elements as depicted in Fig.~\ref{fig:block_diagram}.
   
- 
-  
+
+\begin{itemize}
+  \item[$\bullet$] The first item
+  \item[$\bullet$] The second item
+  \item[$\bullet$] The third etc \ldots
+\end{itemize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -537,7 +541,7 @@ The sensors used to detect relations during different actions are summarized in 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Low-level primitives}
+\subsubsection{Low-level primitives}
 \label{section_primitives}
 In section.\ref{sec:abstract_primitives} we defined the primitives which are performed by the manipulator.
 Here we describe our implementation of these primitives at the low-level.
