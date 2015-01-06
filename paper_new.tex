@@ -158,11 +158,13 @@ XXX SECs is also used as mid-level planners which defines symbolic states. There
 \begin{figure}[hb]
       \centering
       \includegraphics[scale=0.5]{./pdf/Figure_PerceptionAction.pdf}
-      \caption{ Perception-action Chain}
+      \caption{ Perception-action chain.}
       \label{fig:per_act_cycle}
 \end{figure}
 
  
+  
+
 %\newpage  %% needed for single columns
 \clearpage  %% needed for two columns
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -176,13 +178,13 @@ For trajectory level representation there are several well established technique
 With trajectory level encoding, one investigates or learns different complicated trajectories, but it is difficult to use them in a ``more cognitive sense''. Generalization of the observed trajectories is the main {\it breaking~point} here, since even the same action can be demonstrated by following various trajectories.
 
 High-level symbolic representations many times use graph structures and relational representations,
-e.g., \cite{Pardowitz2007,Ekvall2006,Aksoy2011}. Alternative methods, such as in \cite{Lee2013}, describe a syntactic approach for learning robot imitation by capturing  underlying task structures in the form of probabilistic activity grammars. 
+\eg \cite{Pardowitz2007,Ekvall2006,Aksoy2011}. Alternative methods, such as in \cite{Lee2013}, describe a syntactic approach for learning robot imitation by capturing  underlying task structures in the form of probabilistic activity grammars. 
 These approaches give compact descriptions of complex tasks,
 but they do not consider execution-relevant motion parameter (trajectories, poses, forces) in great detail.
 In this work, our high-level action descriptor is based on the concept of Semantic Event Chains (SECs) introduced in  \cite{Aksoy2011}. 
 SECs are generic action descriptors that capture the underlying spatiotemporal structure of continuous actions by sampling only
 decisive key temporal points derived from the spatial interactions between hands and objects in the scene. The
-SEC representation is invariant to large variations in trajectory, velocity, object type and pose used in the action. 
+SEC representation is invariant to large variations in trajectory, velocity, object type, and pose used in the action. 
 Therefore, SECs can be employed for the classification task of actions as demonstrated in various experiments in  \cite{Aksoy2010,Aksoy2011,Aksoy2011b,Aksoy2013,AksoyRAS2014}. 
 In contrast to works in  \cite{Pardowitz2007,Ekvall2006}, we have already shown in \cite{Aksoy2011b} that actions encoded by SEC can be executed once the low-level data (object positions, trajectories etc.) are provided. 
 
@@ -192,7 +194,7 @@ In contrast to works in  \cite{Pardowitz2007,Ekvall2006}, we have already shown 
 The concept of semantic event chains has also  been successfully utilized and extended by others \cite{Waechter2013,Luo2011,Vuga2014,David2014} for monitoring or execution purposes. The work in \cite{Waechter2013} addressed the reproduction of the obtained human action sequence by parameterizing semantic conclusive sub-actions with the SEC framework.
 Active learning of goal directed manipulation sequences, each was recognized using semantic similarities between event chains, was presented in \cite{David2014}. Scene graphs used in SECs were also represented with kernels in \cite{Luo2011} to further apply different machine learning approaches. Additional trajectory information was used in \cite{Vuga2014} to reduce noisy events occur in SECs. All these studies confirm the scalability of the event chains to various monitoring tasks.
 
-Many times trajectory-level descriptions of actions, object properties and high-level goals of the manipulation are brought together through STRIPS-like planning \cite{Dillmann2010}, resulting in operational although not very transparent systems. The approach in \cite{Ahmadzadeh2015} attempts to integrate symbolic action 
+Many times trajectory-level descriptions of actions, object properties, and high-level goals of the manipulation are brought together through STRIPS-like planning \cite{Dillmann2010}, resulting in operational although not very transparent systems. The approach in \cite{Ahmadzadeh2015} attempts to integrate symbolic action 
 representation and planner with motor skill learner. The robot learns the goal of the human demonstrated actions by using
 the Visuospatial Skill Learning (VSL) method which produces symbolic predicates. Such predicates are directly fed to a standard planner to encode skills in a discrete symbolic form. The proposed framework also considers the sensorimotor skills, such as the followed trajectory information from
 the observed action. However, such approaches are not evaluated on long and complex human manipulation actions. 
@@ -201,6 +203,7 @@ Thus, how to bring these two levels together remains a big challenge for robotic
 \red{SoA section needs to be extended to, at least, one page!...}
 
 
+\clearpage  %% needed for two columns
 
  
 
@@ -209,60 +212,68 @@ Thus, how to bring these two levels together remains a big challenge for robotic
 
 
 
-\clearpage  %% needed for two columns
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Method}
 \label{sec:method}
 
-As illustrated in Fig.~\ref{fig:per_act_cycle} our proposed perception action chain involves three main components: {\it high-}, {\it mid-}, and {\it low-level} action units. In this section we will provide the detailed description of each component together with their sub-elements as depicted in Fig.~\ref{fig:block_diagram}.
+As illustrated in Fig.~\ref{fig:per_act_cycle} our proposed perception action framework involves three main levels: {\it high-}, {\it mid-}, and {\it low-level} action units. In this section we will provide the detailed description of each level together with their components as depicted in the block diagram in Fig.~\ref{fig:blockdiagram}.
   
+  
+ \begin{figure}[!t]
+      \centering
+      \includegraphics[scale=0.55]{./pdf/Figure_BlockDiagram.pdf}
+      \caption{ Block diagram of the algorithm.}
+      \label{fig:blockdiagram}
+\end{figure}
 
-\begin{itemize}
-  \item[$\bullet$] The first item
-  \item[$\bullet$] The second item
-  \item[$\bullet$] The third etc \ldots
-\end{itemize}
-
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{High-level Action Definition}
 \label{sec:high-level}
 
-In this section we give a high-level definition of manipulation actions.
-At this level, definitions are mainly symbolic, abstract and close to human description.
+In this section we will give a high-level definition of manipulation actions. Note that at this level, definitions are mainly symbolic, abstract, and close to human description.
 
-A simple action like putting a bucket on a box may be described by a human as following:
+
+%An example put-on-top actions which is performed by human is shown in fig.\ref{fig:action_graph_sec}. The segmented images and the extracted graph sequence are also shown. The nodes of the graphs represent objects and presence of an edge indicates that a pair of objects are touching. The full action is thus summarized by this sequence of graphs.
+
+A simple manipulation action like {\it ``putting a bucket on a box''} may be described by a human as following:
 \begin{enumerate}
   \item \textbf{\textit{Approach}} the bucket
   \item \textbf{\textit{Grasp}} the bucket
   \item \textbf{\textit{Put}} the bucket on the box
   \item \textbf{\textit{Release}} the bucket
 \end{enumerate}
+
 This description is by no means unique.
-One could easily describe the same action in different words, with different number of steps and different details.
-However, one could still extract some common and descriptive properties from this simple description:
+One could easily describe the same action in different words, with different number of steps including different details.
+However, one could still extract some common and descriptive properties from such a simple description:
+
 \begin{itemize}
-  \item \textbf{Property 1:} The definition is still valid even if the objects are altered.
-  \item \textbf{Property 2:} An action can be broken into a sequence of smaller primitives such as \textit{approach} and \textit{grasp}.
-  \item \textbf{Property 3:} There are conditions to end one primitive and start the next. In the above example these conditions are rather implicit.
-  \item \textbf{Property 4:} As humans, we roughly know how to perform these primitives.
-  Although our exact movements are produced when we see the objects and perform the action.
+  \item[$\bullet$] \textbf{Property 1:} The definition is still valid even if the objects are altered.
+  \item[$\bullet$] \textbf{Property 2:} An action can be broken into a sequence of smaller primitives such as \textit{approach} and \textit{grasp}.
+  \item[$\bullet$] \textbf{Property 3:} There are conditions to end one primitive and start the next. In the above example these conditions are rather implicit.
+  \item[$\bullet$] \textbf{Property 4:} As humans, we intuitively know how to  perform these primitives, although our exact movements are produced when we see the objects and perform the action.
 \end{itemize}
 
 
 Our approach to execute human-like actions with robots is similar to this simple example.
-We will define a high-level definition of actions which will be independent from the manipulated objects in the action (Property 1),
-and consists of a sequence of primitives (Property 2).
-The conditions to start and end each primitive are defined explicitly (Property 3).
-We will store the default trajectory parameters to execute actions in the high-level definition.
-When the real objects are seen at each specific instance of the action, these parameters are used to generate the movements (Property 4).
+We will introduce a high-level definition of actions which will be independent from the manipulated objects in the action ({\it Property 1}),
+and will consist of a sequence of primitives ({\it Property 2}).
+The conditions to start and end each primitive will be defined %explicitly ({\it Property 3}).
+\red {implicitly by considering the contact relation between the main manipulator (\eg hand) and  objects in the action} ({\it Property 3}).
+We will also store the default trajectory parameters to execute actions in the high-level definition.
+When novel real objects are observed at each specific instance of an action, these parameters will be employed to generate the required movements ({\it Property 4}).
 
 
 This high-level symbolic definition has several components which will be described in the rest of this section.
 For the put-on-top example, the resulting components are shown in fig.\ref{fig:action_graph_sec}.
 This definition is an extension to our previous works on the ontology of actions \cite{TAMD13}, semantic event chains (SEC) \cite{Aksoy2011b},
 and first version of our action library \cite{aein2013toward}.
+
+
 \begin{figure*}
       \centering
       \includegraphics[scale=0.20]{./pdf/action_graph_sec.pdf}
@@ -270,34 +281,26 @@ and first version of our action library \cite{aein2013toward}.
 The snapshots of the executed actions together with segmented images are shown (top).
 The symbolic graph sequence (middle) and the SEC matrix (bottom) together with 
 the required primitives (bottom right) give a high-level definition of the action.
-The abstract objects, manipulator, primary object, secondary object and background are the hand, the bucket, the box and the table, respectively.}
+The abstract objects, manipulator, primary object, secondary object, and background are the hand, the bucket, the box and the table, respectively.}
       \label{fig:action_graph_sec}
 \end{figure*}
 
+ 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Ontology of Actions}
-\label{sec:ontology}
+Our high-level action definition is based on the the \textit{ontology of manipulation actions} introduced in \cite{TAMD13}.
+This ontology structures human demonstrated manipulation actions, \eg~{\it putting a bucket on a box}, as sequences of spatiotemporal interactions between objects and hands in the scene. 
+The hypothesis claims that the most important information are encoded at the decisive temporal anchor points, \ie when touching relations between objects and hands change. Considering this claim, the ontology suggests $30$ fundamental and unique manipulations that allow complex and chained activities, \eg {\it ``making salad''} or {\it ``preparing breakfast''}.
 
-The \textit{ontology of manipulation actions} \cite{TAMD13} defines human-like manipulation actions in an abstract way.
-An action is defined as change of touching relations between pairs of objects.
-The hypothesis is that the most important information are encoded in touching relation of objects.
-An example put-on-top actions which is performed by human is shown in fig.\ref{fig:action_graph_sec}.
-The segmented images and the extracted graph sequence are also shown.
-The nodes of the graphs represent objects and presence of an edge indicates that a pair of objects are touching.
-The full action is thus summarized by this sequence of graphs.
-
-There are some constraints on the actions defined in this ontology, which are stated as the following rules:
+The ontology introduces $4$ essential constraints on the definition of manipulation actions, which are stated as the following action descriptive rules: 
 \begin{itemize}
- \item \textbf{Rule 1:} The action must yield some change in the touching relation of objects, including the manipulator (human or robot hand)
- \item \textbf{Rule 2:} The action is performed by one hand. This is true for the most of human actions, since the second hand is usually used as support.
- \item \textbf{Rule 3:} The hand is free at the beginning and at the end of action.
- \item \textbf{Rule 4:} The hand touches one object at the beginning of action and does not purposefully touch another object in the scene.
+ \item[$\bullet$] \textbf{Rule 1:} The action is performed by one hand. This is true for the most of human actions, since the second hand is usually used as support.
+ \item[$\bullet$] \textbf{Rule 2:} The hand touches at most one object in the course of action and does not purposefully touch another object in the scene unless the current action ends.
+ \item[$\bullet$] \textbf{Rule 3:} The action must lead to some changes in the touching relations between objects, including the manipulator (\eg human or robot hand).
+ \item[$\bullet$] \textbf{Rule 4:} The hand is free at the beginning and at the end of the action.
 \end{itemize}
 
-The last constraint is used to make sure that the defined actions can not be split into two simpler actions in the ontology.
-There are less than 30 unique actions in the ontology.
-For a complete list of the actions and more information we refer to \cite{TAMD13}.
+The first two rules in the ontology suggest that there is only one hand and at most one object interacting with the hand, which we call {\it manipulator} and {\it primary object}, respectively. Other objects, which are interacted with the primary object, are called {\it secondary objects}. The second rule is also introduced to make sure that the defined actions cannot be further split into two simpler actions. The third rule assures that {\it manipulator}, {\it primary} and {\it secondary objects} are the only ones having direct interaction with each other and consequently affecting the dynamics of the manipulation. The last  rule defines the natural start and end points of the manipulation.  We refer the interested reader to \cite{TAMD13} for details of the manipulation action ontology.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Abstract objects}
@@ -323,7 +326,7 @@ which happens when one object is lifted and moving in the air, but it is not yet
 
 Therefore the last object that we add to the action definition is the \textit{background}.
 In our example, the background is the table.
-The result is that the number of objects involved in an action is (at most) four: manipulator, primary object, secondary object and background.
+The result is that the number of objects involved in an action is (at most) four: manipulator, primary object, secondary object, and background.
 
 \begin{table*}
 \centering
@@ -366,7 +369,7 @@ The constant relations show the necessary pre-conditions to perform an action an
 On the other hand, variable relations encode the progress of the action and play the most important role in our methodology.
 
 The \emph{value} of a relation is either N (for Not touching), T (for Touching) or A (for absent).
-Absent value happens when there is no information about the relation, e.g., one object is not defined or not visible.
+Absent value happens when there is no information about the relation, \eg one object is not defined or not visible.
 Table \ref{tab:relations} shows the abstract relations and their type attributes for the put-on-top action.
 
 
@@ -415,7 +418,7 @@ Nevertheless, our implementations are presented in section.\ref{section_primitiv
 
 In Fig.\ref{fig:action_graph_sec}, the necessary primitives associated to each column of the SEC matrix are shown.
 There number of primitives at each phase is either one or two.
-The reason to add a second primitive is that sometimes more than one primitives are needed to make the desired event i.e. the desired change in the relations.
+The reason to add a second primitive is that sometimes more than one primitives are needed to make the desired event \ie the desired change in the relations.
 For example, a combination of $move(pose)$ and $grasp()$ primitives are often necessary to grasp an object.
 
 xxx here, each state transition from one column (state) to the next defines one unique primitive.
@@ -450,10 +453,10 @@ In the rest of this section, these steps are described in more detail.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Real objects}
-In the real world experiments, the abstract objects (\textit{manipulator}, \textit{primary object}, \textit{secondary object} and \textit{background})
+In the real world experiments, the abstract objects (\textit{manipulator}, \textit{primary object}, \textit{secondary object}, and \textit{background})
 are instantiated by real objects in the scene.
 For the put-on-top example depicted in Fig. \ref{fig:action_graph_sec},
-these objects are manipulator=hand, primary object=bucket, secondary object=box and background=table.
+these objects are manipulator=hand, primary object=bucket, secondary object=box, and background=table.
 We need to represent the real-world objects in the signal space so that we can perform the primitives.
 
 In our work, two pieces of information is needed to represent an object.
@@ -499,20 +502,20 @@ The direction of the object is defined as the direction of its major axis.
 \label{sec:real_relations}
 The real relations are the actual relations between pairs of objects.
 These relations together form a symbolic representation of the scene, or in other words, the current state of system.
-To detect the relations, we use combination of vision, position, force and tactile sensors.
+To detect the relations, we use combination of vision, position, force, and tactile sensors.
 
-When it comes to detecting the object relations, there are three distinct phases: before the action, during the action and after the action.
+When it comes to detecting the object relations, there are three distinct phases: before the action, during the action, and after the action.
 In the first and last phases, the main source of information is the vision system.
 In the middle phase , when the action is being performed, the sensors of the robot play the main role,
 and the vision system acts as a support to confirm the outcome of these sensors.
 
 At the beginning and the end of the action, we have some objects located on a background, and a manipulator which is away from the objects.
-This is a result of the Rule.3 (see Section.\ref{sec:ontology}) in the ontology.
+This is a result of the Rule.3 (see Section.\ref{sec:high-level}) in the ontology.
 This requires the first three relations (the relation of manipulator with the objects and the background) to be equal to N.
 The vision system can detect that we are in a proper state.
 The tactile sensors of the robot hand are also used to confirm that no object is grasped by the hand.
 The last three relations can only be detected by vision.
-These are the relations of the primary object, the secondary object and the background.
+These are the relations of the primary object, the secondary object, and the background.
 
 During the action, the relations of the objects are calculated by combining data from different sensors.
 The sensors used for each relation and how the data from different sensors are combined, depends on the type of the action.
@@ -546,11 +549,11 @@ The sensors used to detect relations during different actions are summarized in 
 In section.\ref{sec:abstract_primitives} we defined the primitives which are performed by the manipulator.
 Here we describe our implementation of these primitives at the low-level.
 
-For the robot arm, we have three primitives: $move(p_{des},P)$, $move_{periodic}(W)$ and $exert(F)$.
+For the robot arm, we have three primitives: $move(p_{des},P)$, $move_{periodic}(W)$, and $exert(F)$.
 The first two primitives generate trajectories for the position control of the robot.
 To generate the trajectories in the Cartesian space, we use dynamic movement primitives (DMP) with joining introduced in \cite{Kulvicius2012}.
 The argument $P$ represents the parameters of the DMP which consist of parameters of Gaussian kernels and the time of trajectory $T$.
-The parameters of the kernels are the number $n$, width $\sigma$ and weights $W$.
+The parameters of the kernels are the number $n$, width $\sigma$, and weights $W$.
 The details of implementation are not covered here \red{cite some papers here!}, but the final result is that by using the primitive $move(p_{des},P)$
 we can move the robot arm from the current position and orientation, to any desired position and orientation, along the desired trajectory.
 
@@ -636,7 +639,7 @@ The components are described in the following:
 \begin{itemize}
  \item{\textbf{Action}}
 component holds the parameters of the high-level definition of the action.
-These parameters are the SEC matrix, high-level primitives and the abstract arguments.
+These parameters are the SEC matrix, high-level primitives, and the abstract arguments.
 The parameters of the DMP for trajectories are also stored in this component.
 \item{\textbf{Perception}}
 component collects data from all the sensors and determines if the relations of objects in the scene are altered.
@@ -661,11 +664,11 @@ component communicates with the robot arm through the FRI,
 and provides the necessary input and output data ports to other Orocos components.
 
 \item{\textbf{SDH}}
-component implements the hand primitives (grasp, release and pre-shape).
+component implements the hand primitives (grasp, release, and pre-shape).
 This component uses the C++ library which is provided to communicate with the Schunk SDH-2 robot hand.
 The tactile sensor data are also processed in this component to detect objects in the hand.
 The parameter $hand\_status$ determines the current status of the hand and is sent to the perception component.
-This parameter takes values: Undefined, Grasped and Empty
+This parameter takes values: Undefined, Grasped, and Empty
 
 \item{\textbf{ROS interface}}
 component creates an interface between the ROS nodes and Orocos data ports.
@@ -705,7 +708,7 @@ The diagram in figure.\ref{fig:coordinator_fsm} shows the designed state machine
 The states are described in detail in the following:
 \begin{itemize}
  \item \textbf{Wait for next command:} Waiting for the next action command to come.
- An action command consists of the action type, the primary object and the secondary object.
+ An action command consists of the action type, the primary object, and the secondary object.
  On exit, the high-level definition of the requested action is loaded in the action component.
  \item \textbf{Check components:} This state checks whether all the components are running and ready to execute the action. 
  \item \textbf{Initialization:} This component initializes the $curren\_column$ parameter to zero.
