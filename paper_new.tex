@@ -242,10 +242,10 @@ Take an example of a manipulation action   {\it ``putting a bucket on a box''} i
 This simple action may be described by a human as follows:
 
 \begin{enumerate}
-  \item \textbf{\textit{Approaching}} to the bucket,
-  \item \textbf{\textit{Grasping}} the bucket,
-  \item \textbf{\textit{Putting}} the bucket on the box, and
-  \item \textbf{\textit{Releasing}} the bucket.
+  \item \textbf{\textit{Approach}} to the bucket,
+  \item \textbf{\textit{Grasp}} the bucket,
+  \item \textbf{\textit{Put}} the bucket on the box, and
+  \item \textbf{\textit{Release}} the bucket.
 \end{enumerate}
 
 This description is by no means unique.
@@ -253,7 +253,7 @@ One could easily describe the same action in different words, with different num
 However, one could still extract some common and descriptive properties from such a naive description:
 
 \begin{itemize}
-  \item[$\bullet$] \textbf{Property 1:} The definition is still valid even if the objects are altered.
+  \item[$\bullet$] \textbf{Property 1:} The definition is still valid even if the manipulated objects are altered.
   \item[$\bullet$] \textbf{Property 2:} An action can be broken into a sequence of smaller primitives such as \textit{approach} and \textit{grasp}.
   \item[$\bullet$] \textbf{Property 3:} There are conditions to end one primitive and start the next. In the above example these conditions are rather implicit.
   \item[$\bullet$] \textbf{Property 4:} As humans, we intuitively know how to  perform these primitives, although our exact movements are produced when we see the objects and perform the action.
@@ -282,7 +282,7 @@ Abstract objects are the {\it  manipulator}, {\it primary object}, {\it secondar
  
 To fully satisfy these four properties in our high-level action definition, we benefit from the  \textit{ontology of manipulation actions} introduced in \cite{TAMD13}.
 This ontology structures human demonstrated manipulation actions, \eg~{\it putting a bucket on a box}, as sequences of spatiotemporal interactions between objects and hands in the scene by using the concept of Semantic Event Chains (SECs) presented in \cite{Aksoy2011}. 
-The hypothesis claims that the most important information are encoded at the decisive temporal anchor points, \ie when touching relations between objects and hands change. Considering this claim, the ontology suggests $30$ fundamental and unique manipulations that allow complex and chained activities, \eg {\it ``making salad''} or {\it ``preparing breakfast''}.
+The hypothesis claims that the most important action related information are encoded at the decisive temporal anchor points, \ie when touching relations between objects and hands change. Considering this claim, the ontology suggests $30$ fundamental and unique manipulations that allow complex and chained activities, \eg {\it ``making salad''} or {\it ``preparing breakfast''}.
 
 The ontology introduces $4$ essential constraints on the definition of manipulation actions, which are stated as the following action descriptive rules: 
 
@@ -300,6 +300,25 @@ The first two rules in the ontology suggest that there is only one hand and at m
 We refer the interested reader to \cite{TAMD13} for details of the manipulation action ontology. 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table*}[!hb]
+\centering
+\caption{Abstract relations and their attributes for the action {\it ``putting a bucket on a box''} shown in Fig.\ref{fig:put_on_action}.}
+\begin{tabular}{ lllll }
+\hline\noalign{\smallskip}
+Relation Name & Abstract Relation & Real Relation & Type \\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+$\text{R}_1$  & R(manipulator,primary object) & R(hand,bucket) & variable \\
+$\text{R}_2$  & R(manipulator,secondary object)& R(hand,box) & don't-care \\
+$\text{R}_3$  & R(manipulator,background) & R(hand,table) & don't-care \\
+$\text{R}_4$  & R(primary object,secondary object) & R(bucket,box) & variable  \\
+$\text{R}_5$  & R(primary object,background) & R(bucket,table) & variable \\
+$\text{R}_6$  & R(secondary object,background)& R(box,table) & constant \\
+\noalign{\smallskip}\hline
+\end{tabular}
+\label{tab:relations}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -318,50 +337,34 @@ Note that for the sake of simplicity we assume that there exist only one {\it se
 %Note that unlike \textit{primary objects}, there could be multiple {\it secondary objects} in an action as will be shown in  chained actions in  section~\ref{sec:results}.  
 
 Additionally, we treat the supporting plane, \ie~{\it background}, as another object that affects the fate of the action. The main advantage coming with the {\it background} is the term ``air-phase'' in actions, 
-which emerges when the \textit{primary object} is lifted and moving in the air, but it is not yet touching any other object, \eg~{\it background} or \textit{secondary object}. Therefore, this term allows the robot to seamlessly execute the primitives such as {\it lift} or {\it place}.
+which emerges when the \textit{primary object} is lifted and moving in the air, but it is not yet touching any other object, \eg~{\it background} or \textit{secondary object}. Therefore, this term allows the robot to seamlessly execute the primitives such as {\it lift} or {\it place}, at which {\it air-phase} starts or ends.
 
 Consequently, the number of abstract objects in our high-level action definition is at most four: \textit{manipulator}, \textit{primary object}, \textit{secondary object}, and {\it background}.
  
 
 
 
-\begin{table*}[!hb]
-\centering
-\caption{Abstract relations and their attributes for the action {\it ``putting a bucket on a box''} shown in Fig.\ref{fig:put_on_action}.}
-\begin{tabular}{ lllll }
-\hline\noalign{\smallskip}
-Relation Name & Abstract Relation & Real Relation & Type \\
-\noalign{\smallskip}\hline\noalign{\smallskip}
-$\text{R}_1$  & R(manipulator,primary object) & R(hand,bucket) & variable \\
-$\text{R}_2$  & R(manipulator,secondary object)& R(hand,box) & don't-care \\
-$\text{R}_3$  & R(manipulator,background) & R(hand,table) & don't-care \\
-$\text{R}_4$  & R(primary object,secondary object) & R(bucket,box) & variable  \\
-$\text{R}_5$  & R(primary object,background) & R(bucket,table) & variable \\
-$\text{R}_6$  & R(secondary object,background)& R(box,table) & constant \\
-\noalign{\smallskip}\hline
-\end{tabular}
-\label{tab:relations}
-\end{table*}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Abstract Relations}
+\label{sec:abstractrelations}
 
-Once the abstract objects in the action are extracted, we continue with computing the spatial relations between each objects pair, \eg between the {\it manipulator} and the {\it primary object}.
+Once the abstract objects in the action are extracted, we continue with computing the spatial relations between each object pair, \eg between the {\it manipulator} and the {\it primary object}.
 If there exists $n$ objects in an action, the number of distinct relations is given by  $n(n-1)/2$.
 As stated before, there are $4$ abstract objects in our high-level action definition, which yields in total 6 abstract relations. Table \ref{tab:relations} shows all possible abstract relations for the scenario {\it ``putting a bucket on a box''} depicted in Fig.\ref{fig:put_on_action}.
 
 
 Each relation is defined by two attributes, namely 	\emph{type} and \emph{value}.
 The \emph{type} of a relation is determined by the importance and variation of that relation throughout the action.
-For example, for the same action in Fig.\ref{fig:put_on_action}, the relation between the {\it manipulator} and the {\it background} does not affect the outcome of the action. Therefore, the type of such relations is \emph{don't-care}. Although the importance of some relations is decided based on a common sense, many of them were learned during the observation phase as addressed in \citep{AksoyRAS2014}.
+For example, for the same action in Fig.\ref{fig:put_on_action}, the relation between the {\it manipulator} and the {\it background} does not affect the outcome of the action since they are not directly interacting with each other at all. Therefore, the type of such relations is \emph{don't-care}. Although the importance of some relations is decided based on a common sense, many of them were incrementally learned human demonstrations as addressed in \citep{AksoyRAS2014}.
 
 Other relations, which are crucial for an action, are categorized as \emph{variable} and \emph{constant} relations.
-For example, the relation between the {\it manipulator} (\ie hand) and {\it primary object} (\ie bucket) in Fig.\ref{fig:put_on_action} is \emph{variable} since it alters during the action. On the other hand,
+For example, the relation between the {\it manipulator} (\ie hand) and the {\it primary object} (\ie bucket) in Fig.\ref{fig:put_on_action} is \emph{variable} since it alters during the action. On the other hand,
 the relation between the  {\it secondary object} (\ie box) and the  {\it background} (\ie table) remains the same and hence is \emph{constant}.
-We note that such constant relations highlight the necessary pre-conditions to perform an action and any change in these constant relations implies failure of the action.
-On the other hand, variable relations encode the progress of the action and play the most important role in our methodology.
+We note that such constant relations highlight the necessary pre-conditions to perform an action and any unexpected change in these constant relations implies failure of the action.
+On the other hand, variable relations encode the dynamics of the action and play the most important role in our methodology.
 
 Possible  \emph{values} of an abstract spatial relation are {\it Not touching} ($N$), {\it Touching} ($T$), and {\it Absence} ($A$), where $N$ corresponds to two spatially separated objects, $T$ represents objects that touch each other.  The  value $A$ occurs when there exists no information about the relation, \eg one object is not defined or not visible.
  
@@ -372,50 +375,54 @@ Possible  \emph{values} of an abstract spatial relation are {\it Not touching} (
 \label{sec:SEC}
 
 Actions in the ontology (see section~\ref{sec:high-level}) are encoded by  the concept of the Semantic Event Chains (SECs) introduced in \cite{Aksoy2011}. 
-SECs capture the essence of an action by employing computer vision techniques. Image sequence of an observed action is first represented by image segments each of which corresponds to one object in the scene and is consistently tracked during the action. Each frame in the sequence is then converted into a graph: nodes represent tracked segments, \ie objects, and edges indicate the touching relation between a pair of objects.  	
+SECs capture the essence of an action by employing computer vision techniques. Image sequence of an observed action is first represented by image segments, each of which corresponds to one object in the scene and is consistently tracked during the action. Each frame in the sequence is then converted into a graph: nodes represent tracked segments, \ie objects, and edges indicate the touching relation between a pair of objects.  	
 By employing an exact graph matching method, the continuous graph sequence is discretized into decisive main graphs, \ie ``states", each of which represents a topological change in the scene. 
-All extracted main graphs form the core skeleton of the SEC, which is a matrix where rows are the abstract spatial relations (\eg touching) between object pairs.
+All extracted main graphs form the core skeleton of the SEC, which is a matrix where rows are the abstract spatial relations (introduced in section~\ref{sec:abstractrelations}) between object pairs (introduced in section~\ref{sec:abstractobjects}).
 Each column of SEC matrix is interpreted as a state of the scene, which is a combination of the relations between the objects when a new main graph occurs. 
 
 
 As there are six abstract relations in our high-level action description, the SEC matrix has always $6$ rows.
 On the other hand, the number of SEC columns depends on how many times the relations between objects change in the course of action and hence can alter from action to action.
 
-The valid symbolic entries in the SEC matrix are the abstract relations, \ie N (Not touching), T (Touching) and A (Absence). In a SEC, the progress of the action from the beginning to the end, is seen in a compact way.
+The valid symbolic entries in the SEC matrix are the abstract relations, \ie N (Not touching), T (Touching) and A (Absence) as introduced in section~\ref{sec:abstractrelations}. In a SEC, the progress of the action from the beginning to the end, is seen in a compact way.
 In addition, the SEC matrix is invariant to large variations in trajectory, velocity, object type, and pose used in the action and therefore remains the same for different instances of one action.
 Fig.\ref{fig:put_on_action} shows the extracted final SEC matrix together with corresponding main graphs, \ie states, and respective tracked segments (colored regions) for the the scenario {\it ``putting a bucket on a box''}.
 
 
 
-\clearpage  %% needed for two columns
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Abstract Primitives}
 \label{sec:abstract_primitives}
-In the simple example at the beginning of this section, it is shown that a full action can be divided into several primitives.
-These primitives or \textit{primitives} are the basic functions of the manipulator.
+
+In the example of {\it ``putting a bucket on a box''} given at the beginning of section~\ref{sec:high-level}, it was shown that a full action could be divided into several primitives as stated in {\it Property 2}.
+These sub-actions or \textit{primitives} are the basic functions of the manipulator, \ie the robot arm.
 
 In our approach we define the following primitives:
 \begin{itemize}
- \item $move(pose)$ :  The manipulator moves to $pose$.
- \item $move_{periodic}(path)$ : The robot arm moves periodically along the given path.
- \item $force()$ : The robot arm exerts $force$.
- \item $grasp()$ : The robot hand grasps an object.
- \item $release()$ : The robot hand releases an object.
+ \item[$\bullet$] $move(pose)$ :  The robot arm moves to $pose$.
+ \item[$\bullet$] $move_{periodic}(path)$ : The robot arm moves periodically along the given path.
+ \item[$\bullet$] $force()$ : The robot arm applies $force$.
+ \item[$\bullet$] $grasp(object)$ : The robot hand grasps an $object$.
+ \item[$\bullet$] $release()$ : The robot hand releases the grasped $object$.
 \end{itemize}
 
 
 These primitives are the basic functions of our hardware which can be implemented in many different ways.
-The focus of our work is not implementing these primitives,
-but rather we would like to propose a way to combine them to produce actions.
-Nevertheless, our implementations are presented in section.\ref{section_primitives}.
+Our way implementation is presented in section~\ref{section_primitives}.
+The focus of our work is, however, not to implement these primitives individually,
+but rather we would like to propose a way to combine them to produce various seamless actions.
+In our approach a state transition in the SEC, \ie a change from one column to the next, corresponds to at least one of these primitives.
+In this manner, the entire SEC representation  encodes the whole action.
 
-In Fig.\ref{fig:put_on_action}, the necessary primitives associated to each column of the SEC matrix are shown.
+In Fig.\ref{fig:put_on_action}, the necessary primitives associated with each column of the SEC matrix are shown.
 There number of primitives at each phase is either one or two.
 The reason to add a second primitive is that sometimes more than one primitives are needed to make the desired event \ie the desired change in the relations.
 For example, a combination of $move(pose)$ and $grasp()$ primitives are often necessary to grasp an object.
 
 xxx here, each state transition from one column (state) to the next defines one unique primitive.
 
+
+\clearpage  %% needed for two columns
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Abstract Positions}
